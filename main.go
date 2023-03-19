@@ -22,25 +22,9 @@ THE SOFTWARE.
 package main
 
 import (
-	"crypto/ecdsa"
-	"crypto/ed25519"
-	"crypto/rsa"
 	"github.com/c3b2a7/easy-ca-cli/cmd"
 )
 
 func main() {
 	cmd.Execute()
-}
-
-func publicKey(priv any) any {
-	switch k := priv.(type) {
-	case *rsa.PrivateKey:
-		return &k.PublicKey
-	case *ecdsa.PrivateKey:
-		return &k.PublicKey
-	case ed25519.PrivateKey:
-		return k.Public().(ed25519.PublicKey)
-	default:
-		return nil
-	}
 }

@@ -19,32 +19,53 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
-package cmd
+package ca
 
 import (
+	"crypto/x509"
 	"github.com/c3b2a7/easy-ca-cli/cli"
-	"github.com/c3b2a7/easy-ca-cli/cmd/gen"
+	"github.com/c3b2a7/easy-ca-cli/cmd/gen/flags"
+	"github.com/c3b2a7/easy-ca/ca"
 	"github.com/spf13/cobra"
 )
 
-var cfg cli.CertConfig
-
-var rootCmd = &cobra.Command{
-	Use:   "easy-ca-cli",
-	Short: "easy-ca-cli is a very simple certificate generator",
-	Long: `A simple and easy to use certificate generator built with love by c3b2a in Go.
-Complete documentation is available at https://github.com/c3b2a7/easy-ca-cli#usage`,
-}
-
-// Execute adds all child commands to the root command and sets flags appropriately.
-// This is called by main.main(). It only needs to happen once to the rootCmd.
-func Execute() {
-	err := rootCmd.Execute()
-	if err != nil {
-		cobra.CheckErr(err)
+func NewCmdGenCA(cfg *cli.CertConfig) *cobra.Command {
+	cmd := &cobra.Command{
+		Use:   "ca",
+		Short: "Generate a certificate authority",
+		Args:  cobra.NoArgs,
+		RunE: func(cmd *cobra.Command, args []string) error {
+			return runGenCA(cfg)
+		},
 	}
+
+	flags.ApplyCommonFlags(cmd, cfg)
+	cmd.Flags().IntVar(&cfg.ValidFor, "duration", 365*20, "duration that certificate is valid for")
+
+	return cmd
 }
 
-func init() {
-	rootCmd.AddCommand(gen.NewGenCmd(&cfg))
+func runGenCA(cfg *cli.CertConfig) error {
+	certificateOpts, err := cfg.CertificateOpts()
+	if err != nil {
+		return err
+	}
+	certificateOpts = append(certificateOpts, ca.WithCA(true))
+
+	keyPair, err := cfg.GenKeyPair()
+	if err != nil {
+		return err
+	}
+
+	var certificate *x509.Certificate
+	if cfg.IssuerCertPath != "" && cfg.IssuerPrivateKeyPath != "" {
+		certificate, err = ca.CreateMiddleRootCertificate(keyPair, certificateOpts...)
+	} else {
+		certificate, err = ca.CreateSelfSignedRootCertificate(keyPair, certificateOpts...)
+	}
+	if err != nil {
+		return err
+	}
+
+	return cli.Out(cfg, []*x509.Certificate{certificate}, keyPair)
 }

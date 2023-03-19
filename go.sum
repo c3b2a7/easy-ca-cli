@@ -1,5 +1,3 @@
-github.com/c3b2a7/easy-ca v1.0.0 h1:DkApEMG9MaxgGiDa24WmEETunYsDS2rHdEbZWFTq3xs=
-github.com/c3b2a7/easy-ca v1.0.0/go.mod h1:YJjZMiW3rzPaMjNQszWmRiBMrzdAyPcthmWfcoo4Eyw=
 github.com/c3b2a7/easy-ca v1.0.1-0.20230305130650-1e2dbda43f5d h1:BpmkY+QGI0sUQQbONBRN1EWuDK+8Ll+hRIkKoehUt6k=
 github.com/c3b2a7/easy-ca v1.0.1-0.20230305130650-1e2dbda43f5d/go.mod h1:YJjZMiW3rzPaMjNQszWmRiBMrzdAyPcthmWfcoo4Eyw=
 github.com/cpuguy83/go-md2man/v2 v2.0.2/go.mod h1:tgQtvFlXSQOSOSIRvRPT7W67SCa46tRHOmNcaadrF8o=
