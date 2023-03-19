@@ -40,7 +40,7 @@ func NewCmdGenCA(cfg *cli.CertConfig) *cobra.Command {
 	}
 
 	flags.ApplyCommonFlags(cmd, cfg)
-	cmd.Flags().IntVar(&cfg.ValidFor, "duration", 365*20, "duration that certificate is valid for")
+	cmd.Flags().IntVar(&cfg.Days, "days", 365*20, "days that certificate is valid for")
 
 	return cmd
 }
@@ -67,5 +67,11 @@ func runGenCA(cfg *cli.CertConfig) error {
 		return err
 	}
 
-	return cli.Out(cfg, []*x509.Certificate{certificate}, keyPair)
+	var chain = []*x509.Certificate{certificate}
+	if cfg.IssuerCertPath != "" && cfg.IssuerPrivateKeyPath != "" {
+		issuerCertificateChain := cli.Must(cfg.IssuerCertificateChain()).([]*x509.Certificate)
+		chain = append(chain, issuerCertificateChain...)
+	}
+
+	return cli.Out(cfg, chain, keyPair)
 }

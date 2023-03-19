@@ -50,7 +50,7 @@ func NewCmdGenTLS(cfg *cli.CertConfig) *cobra.Command {
 	}
 
 	flags.ApplyCommonFlags(cmd, cfg)
-	cmd.Flags().IntVar(&cfg.ValidFor, "duration", 825, "duration that certificate is valid for")
+	cmd.Flags().IntVar(&cfg.Days, "days", 825, "days that certificate is valid for")
 	cmd.Flags().StringVar(&tlsCfg.Host, "host", "", "comma-separated hostnames and IPs to generate a certificate for")
 
 	cmd.MarkFlagRequired("key")
@@ -89,5 +89,6 @@ func runGenTLS(cfg *tlsConfig) error {
 		return err
 	}
 
-	return cli.Out(cfg.CertConfig, []*x509.Certificate{certificate, cli.Must(cfg.IssuerCertificate()).(*x509.Certificate)}, keyPair)
+	issuerCertificateChain := cli.Must(cfg.IssuerCertificateChain()).([]*x509.Certificate)
+	return cli.Out(cfg.CertConfig, append([]*x509.Certificate{certificate}, issuerCertificateChain...), keyPair)
 }

@@ -57,13 +57,27 @@ func Out(cfg *CertConfig, certificates []*x509.Certificate, keyPair ca.KeyPair) 
 	return ca.EncodePKCS8PrivateKey(privateKeyFile, keyPair.PrivateKey)
 }
 
-func LoadPem(file string) (*pem.Block, error) {
+func LoadBlock(file string) (*pem.Block, error) {
 	b, err := os.ReadFile(file)
 	if err != nil {
 		return nil, err
 	}
 	block, _ := pem.Decode(b)
 	return block, nil
+}
+
+func LoadBlocks(file string) ([]*pem.Block, error) {
+	b, err := os.ReadFile(file)
+	if err != nil {
+		return nil, err
+	}
+	var blocks []*pem.Block
+	for len(b) > 0 {
+		block, rest := pem.Decode(b)
+		blocks = append(blocks, block)
+		b = rest
+	}
+	return blocks, nil
 }
 
 func PublicKey(priv any) any {

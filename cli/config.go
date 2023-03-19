@@ -24,13 +24,15 @@ package cli
 import (
 	"crypto/elliptic"
 	"crypto/x509"
+	"fmt"
 	"github.com/c3b2a7/easy-ca/ca"
+	"time"
 )
 
 type CertConfig struct {
 	Subject   string
-	ValidFrom string
-	ValidFor  int
+	StartDate string
+	Days      int
 
 	IssuerCertPath       string
 	IssuerPrivateKeyPath string
@@ -44,16 +46,25 @@ type CertConfig struct {
 	ECDSACurve string
 }
 
-func (c *CertConfig) IssuerCertificate() (*x509.Certificate, error) {
-	blocks, err := LoadPem(c.IssuerCertPath)
+func (c *CertConfig) IssuerCertificateChain() ([]*x509.Certificate, error) {
+	blocks, err := LoadBlocks(c.IssuerCertPath)
 	if err != nil {
 		return nil, err
 	}
-	return x509.ParseCertificate(blocks.Bytes)
+	var chain []*x509.Certificate
+	for _, block := range blocks {
+		var cert *x509.Certificate
+		cert, err = x509.ParseCertificate(block.Bytes)
+		if err != nil {
+			return nil, err
+		}
+		chain = append(chain, cert)
+	}
+	return chain, nil
 }
 
 func (c *CertConfig) IssuerPrivateKey() (interface{}, error) {
-	blocks, err := LoadPem(c.IssuerPrivateKeyPath)
+	blocks, err := LoadBlock(c.IssuerPrivateKeyPath)
 	if err != nil {
 		return nil, err
 	}
@@ -65,7 +76,7 @@ func (c *CertConfig) CertificateOpts() ([]ca.CertificateOption, error) {
 	opts = append(opts, ca.WithSubject(c.Subject))
 
 	if c.IssuerCertPath != "" && c.IssuerPrivateKeyPath != "" {
-		issuer, err := c.IssuerCertificate()
+		issuerCertChain, err := c.IssuerCertificateChain()
 		if err != nil {
 			return nil, err
 		}
@@ -76,8 +87,23 @@ func (c *CertConfig) CertificateOpts() ([]ca.CertificateOption, error) {
 		if err != nil {
 			return nil, err
 		}
-		opts = append(opts, ca.WithIssuer(issuer))
+		opts = append(opts, ca.WithIssuer(issuerCertChain[0]))
 		opts = append(opts, ca.WithIssuerPrivateKey(privateKey))
+	}
+
+	var notBefore time.Time
+	var err error
+	if len(c.StartDate) == 0 {
+		notBefore = time.Now()
+	} else {
+		notBefore, err = time.Parse("Jan 2 15:04:05 2006", c.StartDate)
+	}
+	if err != nil {
+		return nil, fmt.Errorf("failed to parse creation date: %v", err)
+	}
+	opts = append(opts, ca.WithNotBefore(notBefore))
+	if c.Days != 0 {
+		opts = append(opts, ca.WithNotAfter(notBefore.AddDate(0, 0, c.Days)))
 	}
 
 	return opts, nil
