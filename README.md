@@ -80,5 +80,4 @@ easy-ca-cli gen tls --rsa --rsa-keysize 2048 \
 
 ## LICENSE
 
-Easy CA CLI is released under the MIT license. See (
-LICENSE.txt)[https://github.com/c3b2a7/easy-ca-cli/blob/main/LICENSE]
+Easy CA CLI is released under the MIT license. See [LICENSE](https://github.com/c3b2a7/easy-ca-cli/blob/main/LICENSE)
