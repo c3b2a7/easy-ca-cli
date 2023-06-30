@@ -68,7 +68,17 @@ func (c *CertConfig) IssuerPrivateKey() (interface{}, error) {
 	if err != nil {
 		return nil, err
 	}
-	return x509.ParsePKCS8PrivateKey(blocks.Bytes)
+	if blocks.Type == "EC PRIVATE KEY" {
+		return x509.ParseECPrivateKey(blocks.Bytes)
+	} else if blocks.Type == "RSA PRIVATE KEY" {
+		return x509.ParsePKCS1PrivateKey(blocks.Bytes)
+	} else {
+		priv, err := x509.ParsePKCS8PrivateKey(blocks.Bytes)
+		if err == nil {
+			return priv, err
+		}
+		return x509.ParsePKCS1PrivateKey(blocks.Bytes)
+	}
 }
 
 func (c *CertConfig) CertificateOpts() ([]ca.CertificateOption, error) {
