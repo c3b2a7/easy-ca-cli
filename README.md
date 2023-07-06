@@ -19,7 +19,7 @@ key algorithm support
 
 generate certificate support
 
-- support certificate Authority、middle certificate authority、general TLS certificate
+- support certificate authority、middle certificate authority、general tls certificate
 - support certificate chain and private key in pkcs8 format
 - support specified output path
 
@@ -47,7 +47,7 @@ easy-ca-cli help
 
 ```bash
 easy-ca-cli gen ca --ecdsa --ecdsa-curve P512 \
- --subject "C=CN,O=Easy CA,OU=IT Dept.,CN=Easy CA Root" \
+ --subject "/C=CN/O=Easy CA/OU=IT Dept./CN=Easy CA Root" \
  --start-date "Jan 1 15:00:00 2022" --days 3650 \
  --out-key ca_key.pem --out-cert ca_cert.pem
 ```
@@ -56,7 +56,7 @@ easy-ca-cli gen ca --ecdsa --ecdsa-curve P512 \
 
 ```bash
 easy-ca-cli gen ca --ecdsa --ecdsa-curve P384 \
- --subject "C=CN,O=Easy CA,OU=IT Dept.,CN=Easy CA Authority R1" \
+ --subject "/C=CN/O=Easy CA/OU=IT Dept./CN=Easy CA Authority R1" \
  --start-date "Jan 1 15:05:00 2022" --days 1800 \
  --issuer-key ca_key.pem --issuer-cert ca_cert.pem \
  --out-key mca_key.pem --out-cert mca_cert.chain.pem
@@ -66,7 +66,7 @@ easy-ca-cli gen ca --ecdsa --ecdsa-curve P384 \
 
 ```bash
 easy-ca-cli gen tls --rsa --rsa-keysize 2048 \
-  --subject "C=CN,O=Easy CA,OU=IT Dept.,CN=easy-ca.com" \
+  --subject "/C=CN/O=Easy CA/OU=IT Dept./CN=easy-ca.com" \
   --host "easy-ca.com,www.easy-ca.com,cli.easy-ca.com" \
   --start-date "Jan 1 15:10:00 2022" --days 365 \
   --issuer-key mca_key.pem --issuer-cert mca_cert.chain.pem \
