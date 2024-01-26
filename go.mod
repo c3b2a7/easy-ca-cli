@@ -3,7 +3,7 @@ module github.com/c3b2a7/easy-ca-cli
 go 1.21
 
 require (
-	github.com/c3b2a7/easy-ca v1.1.0
+	github.com/c3b2a7/easy-ca v1.2.0
 	github.com/spf13/cobra v1.8.0
 )
 
