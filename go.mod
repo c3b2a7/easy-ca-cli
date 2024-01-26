@@ -4,7 +4,7 @@ go 1.20
 
 require (
 	github.com/c3b2a7/easy-ca v1.1.0
-	github.com/spf13/cobra v1.6.1
+	github.com/spf13/cobra v1.8.0
 )
 
 require (
