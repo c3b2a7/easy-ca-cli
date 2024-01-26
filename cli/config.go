@@ -106,7 +106,7 @@ func (c *CertConfig) CertificateOpts() ([]ca.CertificateOption, error) {
 	if len(c.StartDate) == 0 {
 		notBefore = time.Now()
 	} else {
-		notBefore, err = time.Parse("Jan 2 15:04:05 2006", c.StartDate)
+		notBefore, err = time.ParseInLocation(time.DateTime, c.StartDate, time.Local)
 	}
 	if err != nil {
 		return nil, fmt.Errorf("failed to parse creation date: %v", err)

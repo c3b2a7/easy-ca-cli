@@ -25,11 +25,12 @@ import (
 	"github.com/c3b2a7/easy-ca-cli/cli"
 	"github.com/c3b2a7/easy-ca/ca/constants"
 	"github.com/spf13/cobra"
+	"time"
 )
 
 func ApplyCommonFlags(cmd *cobra.Command, cfg *cli.CertConfig) {
 	cmd.Flags().StringVar(&cfg.Subject, "subject", "", "certificate subject formatted as "+constants.DefaultCASubject)
-	cmd.Flags().StringVar(&cfg.StartDate, "start-date", "", "creation date formatted as Jan 1 15:04:05 2022")
+	cmd.Flags().StringVar(&cfg.StartDate, "start-date", "", "creation date formatted as "+time.DateTime)
 
 	cmd.Flags().BoolVar(&cfg.RSA, "rsa", true, "rsa algorithm")
 	cmd.Flags().IntVar(&cfg.RSAKeySize, "rsa-keysize", 2048, "rsa key size, Valid values are 1024, 2048")
