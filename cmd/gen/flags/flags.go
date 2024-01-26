@@ -23,13 +23,12 @@ package flags
 
 import (
 	"github.com/c3b2a7/easy-ca-cli/cli"
-	"github.com/c3b2a7/easy-ca/ca/constants"
 	"github.com/spf13/cobra"
 	"time"
 )
 
 func ApplyCommonFlags(cmd *cobra.Command, cfg *cli.CertConfig) {
-	cmd.Flags().StringVar(&cfg.Subject, "subject", "", "certificate subject formatted as "+constants.DefaultCASubject)
+	cmd.Flags().StringVar(&cfg.Subject, "subject", "", `certificate subject formatted as /C=CN/O=Easy CA/OU=IT Dept./CN=Easy CA Root`)
 	cmd.Flags().StringVar(&cfg.StartDate, "start-date", "", "creation date formatted as "+time.DateTime)
 
 	cmd.Flags().BoolVar(&cfg.RSA, "rsa", true, "rsa algorithm")
