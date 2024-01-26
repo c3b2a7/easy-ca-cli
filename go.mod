@@ -1,6 +1,6 @@
 module github.com/c3b2a7/easy-ca-cli
 
-go 1.20
+go 1.21
 
 require (
 	github.com/c3b2a7/easy-ca v1.1.0
