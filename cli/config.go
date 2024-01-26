@@ -22,8 +22,12 @@ THE SOFTWARE.
 package cli
 
 import (
+	"crypto/ecdsa"
+	"crypto/ed25519"
 	"crypto/elliptic"
+	"crypto/rsa"
 	"crypto/x509"
+	"errors"
 	"fmt"
 	"github.com/c3b2a7/easy-ca/ca"
 	"time"
@@ -73,9 +77,13 @@ func (c *CertConfig) IssuerPrivateKey() (interface{}, error) {
 	} else if blocks.Type == "RSA PRIVATE KEY" {
 		return x509.ParsePKCS1PrivateKey(blocks.Bytes)
 	} else {
-		priv, err := x509.ParsePKCS8PrivateKey(blocks.Bytes)
-		if err == nil {
-			return priv, err
+		if key, err := x509.ParsePKCS8PrivateKey(blocks.Bytes); err == nil {
+			switch key.(type) {
+			case *rsa.PrivateKey, *ecdsa.PrivateKey, ed25519.PrivateKey:
+				return key, nil
+			default:
+				return nil, errors.New("found unsupported private key type in PKCS#8 wrapping")
+			}
 		}
 		return x509.ParsePKCS1PrivateKey(blocks.Bytes)
 	}
