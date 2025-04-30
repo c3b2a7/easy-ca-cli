@@ -39,8 +39,8 @@ func ApplyCommonFlags(cmd *cobra.Command, cfg *cli.CertConfig) {
 
 	cmd.Flags().StringVar(&cfg.IssuerCertPath, "issuer-cert", "", "certificate file of issuer")
 	cmd.Flags().StringVar(&cfg.IssuerPrivateKeyPath, "issuer-key", "", "private key file of issuer")
-	cmd.Flags().StringVar(&cfg.CertOutputPath, "out-cert", "cert.pem", "certificate file output location")
-	cmd.Flags().StringVar(&cfg.PrivateKeyOutputPath, "out-key", "key.pem", "private key file output location")
+	cmd.Flags().StringVar(&cfg.CertOutputPath, "out-cert", "", "certificate file output location")
+	cmd.Flags().StringVar(&cfg.PrivateKeyOutputPath, "out-key", "", "private key file output location")
 
 	cmd.MarkFlagRequired("subject")
 }

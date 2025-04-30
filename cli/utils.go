@@ -22,6 +22,7 @@ THE SOFTWARE.
 package cli
 
 import (
+	"bytes"
 	"crypto/ecdsa"
 	"crypto/ed25519"
 	"crypto/rsa"
@@ -39,7 +40,8 @@ func Must(v interface{}, err error) interface{} {
 }
 
 func Out(cfg *CertConfig, certificates []*x509.Certificate, keyPair ca.KeyPair) error {
-	certFile, err := os.OpenFile(cfg.CertOutputPath, os.O_CREATE|os.O_WRONLY, 0600)
+	privateKeyFilePath, certFilePath := checkAndGenerateOutputPath(cfg, certificates)
+	certFile, err := os.OpenFile(certFilePath, os.O_CREATE|os.O_WRONLY, 0600)
 	if err != nil {
 		return err
 	}
@@ -49,12 +51,73 @@ func Out(cfg *CertConfig, certificates []*x509.Certificate, keyPair ca.KeyPair) 
 		return err
 	}
 
-	privateKeyFile, err := os.OpenFile(cfg.PrivateKeyOutputPath, os.O_CREATE|os.O_WRONLY, 0600)
+	privateKeyFile, err := os.OpenFile(privateKeyFilePath, os.O_CREATE|os.O_WRONLY, 0600)
 	if err != nil {
 		return err
 	}
 	defer privateKeyFile.Close()
 	return ca.EncodePKCS8PrivateKey(privateKeyFile, keyPair.PrivateKey)
+}
+
+func checkAndGenerateOutputPath(cfg *CertConfig, certificates []*x509.Certificate) (string, string) {
+	if len(certificates) == 0 {
+		panic("certificates must not be empty")
+	}
+
+	privateKeyFile, certFile := cfg.PrivateKeyOutputPath, cfg.CertOutputPath
+	if privateKeyFile != "" && certFile != "" {
+		return privateKeyFile, certFile
+	}
+
+	cert := certificates[0]
+	commonName := cert.Subject.CommonName
+	if cert.Subject.CommonName == "" {
+		commonName = DetermineCertificateKind(cert).String()
+	}
+
+	if privateKeyFile == "" {
+		privateKeyFile = commonName + ".key.pem"
+	}
+	if certFile == "" {
+		certFile = commonName + ".cert.pem"
+	}
+
+	return privateKeyFile, certFile
+}
+
+type CertificateKind int8
+
+const (
+	TLS CertificateKind = 1 << iota
+	IntermediateCA
+	RootCA
+)
+
+func (k CertificateKind) String() string {
+	switch k {
+	case TLS:
+		return "tls"
+	case IntermediateCA:
+		return "intermediate_ca"
+	case RootCA:
+		return "ca"
+	default:
+		return "unknown"
+	}
+}
+
+func DetermineCertificateKind(cert *x509.Certificate) CertificateKind {
+	if cert == nil {
+		panic("certificate is nil")
+	}
+	if cert.IsCA {
+		if bytes.Equal(cert.RawSubject, cert.RawIssuer) {
+			return RootCA
+		}
+		return IntermediateCA
+	} else {
+		return TLS
+	}
 }
 
 func LoadBlock(file string) (*pem.Block, error) {

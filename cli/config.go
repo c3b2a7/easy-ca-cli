@@ -82,7 +82,7 @@ func (c *CertConfig) IssuerPrivateKey() (interface{}, error) {
 			case *rsa.PrivateKey, *ecdsa.PrivateKey, ed25519.PrivateKey:
 				return key, nil
 			default:
-				return nil, errors.New("found unsupported private key type in PKCS#8 wrapping")
+				return nil, errors.New("unsupported private key in PKCS#8 wrapping")
 			}
 		}
 		return x509.ParsePKCS1PrivateKey(blocks.Bytes)
@@ -114,7 +114,7 @@ func (c *CertConfig) CertificateOpts() ([]ca.CertificateOption, error) {
 		notBefore, err = time.ParseInLocation(time.DateTime, c.StartDate, time.Local)
 	}
 	if err != nil {
-		return nil, fmt.Errorf("failed to parse creation date: %v", err)
+		return nil, fmt.Errorf("failed to parse date: %w", err)
 	}
 	opts = append(opts, ca.WithNotBefore(notBefore))
 	if c.Days != 0 {
