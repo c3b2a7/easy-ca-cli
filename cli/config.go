@@ -98,9 +98,6 @@ func (c *CertConfig) CertificateOpts() ([]ca.CertificateOption, error) {
 		if err != nil {
 			return nil, err
 		}
-		if err != nil {
-			return nil, err
-		}
 		privateKey, err := c.IssuerPrivateKey()
 		if err != nil {
 			return nil, err
