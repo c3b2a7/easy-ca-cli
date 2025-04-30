@@ -32,9 +32,9 @@ func ApplyCommonFlags(cmd *cobra.Command, cfg *cli.CertConfig) {
 	cmd.Flags().StringVar(&cfg.StartDate, "start-date", "", "creation date formatted as "+time.DateTime)
 
 	cmd.Flags().BoolVar(&cfg.RSA, "rsa", true, "rsa algorithm")
-	cmd.Flags().IntVar(&cfg.RSAKeySize, "rsa-keysize", 2048, "rsa key size, Valid values are 1024, 2048")
+	cmd.Flags().IntVar(&cfg.RSAKeySize, "rsa-keysize", 2048, "rsa key size, valid values are 2048, 3072, 4096")
 	cmd.Flags().BoolVar(&cfg.ECDSA, "ecdsa", false, "ecdsa algorithm")
-	cmd.Flags().StringVar(&cfg.ECDSACurve, "ecdsa-curve", "P256", "ecdsa curve to use to generate a key. Valid values are P224, P256, P384, P521")
+	cmd.Flags().StringVar(&cfg.ECDSACurve, "ecdsa-curve", "P256", "ecdsa curve to use to generate a key, valid values are P224, P256, P384, P521")
 	cmd.Flags().BoolVar(&cfg.ED25519, "ed25519", false, "ed25519 algorithm")
 
 	cmd.Flags().StringVar(&cfg.IssuerCertPath, "issuer-cert", "", "certificate file of issuer")
