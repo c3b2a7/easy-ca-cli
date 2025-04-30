@@ -45,7 +45,7 @@ type CertConfig struct {
 
 	RSA        bool
 	ECDSA      bool
-	ED25591    bool
+	ED25519    bool
 	RSAKeySize int
 	ECDSACurve string
 }
@@ -155,8 +155,8 @@ func (c *CertConfig) Algorithm() (algorithm string) {
 		algorithm = "RSA"
 	} else if c.ECDSA {
 		algorithm = "ECDSA"
-	} else if c.ED25591 {
-		algorithm = "ED25591"
+	} else if c.ED25519 {
+		algorithm = "ED25519"
 	}
 	return
 }
