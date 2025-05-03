@@ -100,7 +100,7 @@ easy-ca-cli gen ca --ecdsa --ecdsa-curve P384 \
 
 This command:
 
-- Uses the ECDSA algorithm with P384 curve
+- Uses the `ECDSA` algorithm with `P384` curve
 - Sets the certificate subject information
 - Makes the certificate valid from January 1, 2025 for 10 years (3650 days)
 - Outputs the private key to `ca_key.pem` and the certificate to `ca_cert.pem`
@@ -119,7 +119,7 @@ easy-ca-cli gen ca --ed25519 \
 
 This command:
 
-- Creates an intermediate CA using the same algorithm
+- Creates an intermediate CA using the `ed25591` algorithm
 - References the root CA's private key and certificate for signing
 - Outputs a certificate chain in `intermediate_cert.chain.pem` that includes both the intermediate CA and root CA
   certificates
@@ -138,7 +138,7 @@ easy-ca-cli gen tls --rsa --rsa-keysize 4096 \
 
 This command:
 
-- Uses the RSA algorithm with 4096-bit key size
+- Uses the `RSA` algorithm with 4096-bit key size
 - Sets the certificate subject and Subject Alternative Names (SANs) for multiple domains and an IP address
 - Makes the certificate valid for 1 year
 - References the intermediate CA for signing
