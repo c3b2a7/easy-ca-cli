@@ -28,8 +28,8 @@ import (
 )
 
 func ApplyCommonFlags(cmd *cobra.Command, cfg *cli.CertConfig) {
-	cmd.Flags().StringVar(&cfg.Subject, "subject", "", `certificate subject formatted as /C=CN/O=Easy CA/OU=IT Dept./CN=Easy CA Root`)
-	cmd.Flags().StringVar(&cfg.StartDate, "start-date", "", "creation date formatted as "+time.DateTime)
+	cmd.Flags().StringVar(&cfg.Subject, "subject", "", `subject of certificate, formatted as /C=CN/O=Easy CA/OU=IT Dept./CN=Easy CA Root`)
+	cmd.Flags().StringVar(&cfg.StartDate, "start-date", "", "starting date of certificate, formatted as "+time.DateTime)
 
 	cmd.Flags().BoolVar(&cfg.RSA, "rsa", false, "rsa algorithm")
 	cmd.Flags().IntVar(&cfg.RSAKeySize, "rsa-keysize", 3072, "rsa key size, valid values are 2048, 3072, 4096")
@@ -42,5 +42,16 @@ func ApplyCommonFlags(cmd *cobra.Command, cfg *cli.CertConfig) {
 	cmd.Flags().StringVar(&cfg.CertOutputPath, "out-cert", "", "certificate file output location")
 	cmd.Flags().StringVar(&cfg.PrivateKeyOutputPath, "out-key", "", "private key file output location")
 
-	cmd.MarkFlagRequired("subject")
+	Must(cmd.MarkFlagFilename("issuer-cert"))
+	Must(cmd.MarkFlagFilename("issuer-key"))
+	Must(cmd.MarkFlagFilename("out-cert"))
+	Must(cmd.MarkFlagFilename("out-key"))
+
+	Must(cmd.MarkFlagRequired("subject"))
+}
+
+func Must(err error) {
+	if err != nil {
+		panic(err)
+	}
 }
