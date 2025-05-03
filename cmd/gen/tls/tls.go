@@ -53,9 +53,6 @@ func NewCmdGenTLS(cfg *cli.CertConfig) *cobra.Command {
 	cmd.Flags().IntVar(&cfg.Days, "days", 825, "days that certificate is valid for")
 	cmd.Flags().StringVar(&tlsCfg.Host, "host", "", "comma-separated hostnames and IPs to generate a certificate for")
 
-	cmd.MarkFlagRequired("key")
-	cmd.MarkFlagRequired("cert")
-
 	return cmd
 }
 
