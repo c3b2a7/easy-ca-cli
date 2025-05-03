@@ -94,7 +94,7 @@ The following command creates a self-signed root CA certificate using ECDSA with
 ```bash
 easy-ca-cli gen ca --ecdsa --ecdsa-curve P384 \
   --subject "/C=CN/O=Easy CA/OU=IT Dept./CN=Easy CA Root" \
-  --start-date "2023-01-01 12:00:00" --days 3650 \
+  --start-date "2025-01-01 12:00:00" --days 3650 \
   --out-key ca_key.pem --out-cert ca_cert.pem
 ```
 
@@ -102,17 +102,17 @@ This command:
 
 - Uses the ECDSA algorithm with P384 curve
 - Sets the certificate subject information
-- Makes the certificate valid from January 1, 2023 for 10 years (3650 days)
-- Outputs the private key to ca_key.pem and the certificate to ca_cert.pem
+- Makes the certificate valid from January 1, 2025 for 10 years (3650 days)
+- Outputs the private key to `ca_key.pem` and the certificate to `ca_cert.pem`
 
 ### Generating an Intermediate CA
 
 To create an intermediate CA signed by your root CA:
 
 ```bash
-easy-ca-cli gen ca --ecdsa --ecdsa-curve P384 \
+easy-ca-cli gen ca --ed25519 \
   --subject "/C=CN/O=Easy CA/OU=IT Dept./CN=Easy CA Intermediate" \
-  --start-date "2023-01-01 13:00:00" --days 1825 \
+  --start-date "2025-01-01 13:00:00" --days 1825 \
   --issuer-key ca_key.pem --issuer-cert ca_cert.pem \
   --out-key intermediate_key.pem --out-cert intermediate_cert.chain.pem
 ```
@@ -132,9 +132,8 @@ To create a TLS certificate signed by your intermediate CA:
 easy-ca-cli gen tls --rsa --rsa-keysize 4096 \
   --subject "/C=CN/O=Example Inc/OU=Web Services/CN=example.com" \
   --host "example.com,www.example.com,192.168.1.100" \
-  --start-date "2023-01-01 14:00:00" --days 365 \
+  --start-date "2025-01-01 14:00:00" --days 365 \
   --issuer-key intermediate_key.pem --issuer-cert intermediate_cert.chain.pem \
-  --out-key server_key.pem --out-cert server_cert.chain.pem
 ```
 
 This command:
@@ -143,7 +142,7 @@ This command:
 - Sets the certificate subject and Subject Alternative Names (SANs) for multiple domains and an IP address
 - Makes the certificate valid for 1 year
 - References the intermediate CA for signing
-- Outputs a certificate chain that includes the server certificate, intermediate CA, and root CA
+- Outputs generated certificate and private key by default file name, if flags are not specified.
 
 ### Others
 
