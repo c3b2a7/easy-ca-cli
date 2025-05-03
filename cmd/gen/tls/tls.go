@@ -81,7 +81,7 @@ func runGenTLS(cfg *tlsConfig) error {
 	}
 
 	var certificate *x509.Certificate
-	certificate, err = ca.CreateGeneralCertificate(keyPair, certificateOpts...)
+	certificate, err = ca.CreateCertificateWithIssuer(keyPair, certificateOpts...)
 	if err != nil {
 		return err
 	}

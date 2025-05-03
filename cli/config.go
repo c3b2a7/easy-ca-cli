@@ -147,13 +147,13 @@ func (c *CertConfig) KeyOpts() []ca.KeyOption {
 	return keyOpts
 }
 
-func (c *CertConfig) Algorithm() (algorithm string) {
+func (c *CertConfig) Algorithm() (algorithm ca.KeyAlgorithm) {
 	if c.RSA {
-		algorithm = "RSA"
+		algorithm = ca.RSA
 	} else if c.ECDSA {
-		algorithm = "ECDSA"
+		algorithm = ca.ECDSA
 	} else if c.ED25519 {
-		algorithm = "ED25519"
+		algorithm = ca.ED25519
 	}
 	return
 }

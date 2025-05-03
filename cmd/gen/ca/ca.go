@@ -59,7 +59,7 @@ func runGenCA(cfg *cli.CertConfig) error {
 
 	var certificate *x509.Certificate
 	if cfg.IssuerCertPath != "" && cfg.IssuerPrivateKeyPath != "" {
-		certificate, err = ca.CreateMiddleRootCertificate(keyPair, certificateOpts...)
+		certificate, err = ca.CreateCertificateWithIssuer(keyPair, certificateOpts...)
 	} else {
 		certificate, err = ca.CreateSelfSignedRootCertificate(keyPair, certificateOpts...)
 	}
