@@ -53,6 +53,7 @@ The CLI offers a comprehensive set of features for certificate generation:
 - TLS/Server Certificates
 - Support for certificate chains
 - PKCS8 format for private keys
+- PKCS12 format for the key pair
 - Customizable output paths
 
 ### Customizable Certificate Information
