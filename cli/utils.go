@@ -34,10 +34,14 @@ import (
 	"software.sslmate.com/src/go-pkcs12"
 )
 
-func Must(v interface{}, err error) interface{} {
+func Must(err error) {
 	if err != nil {
 		panic(err)
 	}
+}
+
+func Must2[T interface{}](v T, err error) T {
+	Must(err)
 	return v
 }
 

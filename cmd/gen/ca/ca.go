@@ -71,7 +71,7 @@ func runGenCA(cfg *cli.CertConfig) error {
 
 	var chain = []*x509.Certificate{certificate}
 	if cfg.IssuerCertPath != "" && cfg.IssuerPrivateKeyPath != "" {
-		issuerCertificateChain := cli.Must(cfg.IssuerCertificateChain()).([]*x509.Certificate)
+		issuerCertificateChain := cli.Must2[[]*x509.Certificate](cfg.IssuerCertificateChain())
 		chain = append(chain, issuerCertificateChain...)
 	}
 

@@ -44,17 +44,11 @@ func ApplyCommonFlags(cmd *cobra.Command, cfg *cli.CertConfig) {
 	cmd.Flags().StringVar(&cfg.PKCS12OutputPath, "out-pkcs12", "", "pkcs12 file output location")
 	cmd.Flags().StringVar(&cfg.PKCS12Password, "pkcs12-password", "", "password for pkcs12 file")
 
-	Must(cmd.MarkFlagFilename("issuer-cert"))
-	Must(cmd.MarkFlagFilename("issuer-key"))
-	Must(cmd.MarkFlagFilename("out-cert"))
-	Must(cmd.MarkFlagFilename("out-key"))
+	cli.Must(cmd.MarkFlagFilename("issuer-cert"))
+	cli.Must(cmd.MarkFlagFilename("issuer-key"))
+	cli.Must(cmd.MarkFlagFilename("out-cert"))
+	cli.Must(cmd.MarkFlagFilename("out-key"))
 
-	Must(cmd.MarkFlagRequired("subject"))
+	cli.Must(cmd.MarkFlagRequired("subject"))
 	cmd.MarkFlagsRequiredTogether("out-pkcs12", "pkcs12-password")
-}
-
-func Must(err error) {
-	if err != nil {
-		panic(err)
-	}
 }

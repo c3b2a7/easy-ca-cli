@@ -86,6 +86,6 @@ func runGenTLS(cfg *tlsConfig) error {
 		return err
 	}
 
-	issuerCertificateChain := cli.Must(cfg.IssuerCertificateChain()).([]*x509.Certificate)
+	issuerCertificateChain := cli.Must2[[]*x509.Certificate](cfg.IssuerCertificateChain())
 	return cli.Out(&cfg.CertConfig, append([]*x509.Certificate{certificate}, issuerCertificateChain...), keyPair)
 }
