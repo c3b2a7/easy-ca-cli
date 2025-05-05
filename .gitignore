@@ -1,4 +1,8 @@
 bin/
 .idea/
-*.pem
+*.iml
 .vscode/
+
+*.pem
+*.p12
+*.pfx

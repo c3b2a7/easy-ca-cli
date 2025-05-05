@@ -42,6 +42,8 @@ type CertConfig struct {
 	IssuerPrivateKeyPath string
 	CertOutputPath       string
 	PrivateKeyOutputPath string
+	PKCS12OutputPath     string
+	PKCS12Password       string
 
 	RSA        bool
 	ECDSA      bool

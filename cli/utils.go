@@ -30,6 +30,7 @@ import (
 	"encoding/pem"
 	"github.com/c3b2a7/easy-ca/ca"
 	"os"
+	"software.sslmate.com/src/go-pkcs12"
 )
 
 func Must(v interface{}, err error) interface{} {
@@ -46,8 +47,8 @@ func Out(cfg *CertConfig, certificates []*x509.Certificate, keyPair ca.KeyPair) 
 		return err
 	}
 	defer certFile.Close()
-	err = ca.EncodeCertificateChain(certFile, certificates)
-	if err != nil {
+
+	if err = ca.EncodeCertificateChain(certFile, certificates); err != nil {
 		return err
 	}
 
@@ -56,7 +57,38 @@ func Out(cfg *CertConfig, certificates []*x509.Certificate, keyPair ca.KeyPair) 
 		return err
 	}
 	defer privateKeyFile.Close()
-	return ca.EncodePKCS8PrivateKey(privateKeyFile, keyPair.PrivateKey)
+
+	if err = ca.EncodePKCS8PrivateKey(privateKeyFile, keyPair.PrivateKey); err != nil {
+		return err
+	}
+
+	if cfg.PKCS12OutputPath != "" {
+		if err = writePKCS12File(cfg, certificates, keyPair); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+func writePKCS12File(cfg *CertConfig, certificates []*x509.Certificate, keyPair ca.KeyPair) error {
+	cert := certificates[0]
+	var caCerts []*x509.Certificate
+	if len(certificates) > 1 {
+		caCerts = certificates[1:]
+	}
+
+	var pfxData []byte
+	var err error
+	if pfxData, err = pkcs12.Legacy.Encode(keyPair.PrivateKey, cert, caCerts, cfg.PKCS12Password); err != nil {
+		return err
+	}
+	pfxFile, err := os.OpenFile(cfg.PKCS12OutputPath, os.O_CREATE|os.O_WRONLY, 0600)
+	if err != nil {
+		return err
+	}
+	defer pfxFile.Close()
+	_, err = pfxFile.Write(pfxData)
+	return err
 }
 
 func checkAndGenerateOutputPath(cfg *CertConfig, certificates []*x509.Certificate) (string, string) {
