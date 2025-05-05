@@ -1,10 +1,13 @@
-NAME=easyca
+NAME=easy-ca-cli
 BINDIR=bin
-VERSION=$(shell git describe --tags --always || echo "unknown version")
+VERSION=$(shell git describe --dirty --always --tags || echo "unknown version")
+COMMIT_HASH=$(shell git rev-parse HEAD)
 BUILDTIME=$(shell date -u)
 GOBUILD=CGO_ENABLED=0 go build -trimpath -ldflags ' \
-		-X "github.com/c3b2a7/easy-ca-cli/cmd.Version=$(VERSION)" \
-		-X "github.com/c3b2a7/easy-ca-cli/cmd.BuildTime=$(BUILDTIME)" \
+		-X "github.com/c3b2a7/easy-ca-cli/cmd.version=$(VERSION)" \
+		-X "github.com/c3b2a7/easy-ca-cli/cmd.date=$(BUILDTIME)" \
+		-X "github.com/c3b2a7/easy-ca-cli/cmd.commit=$(COMMIT_HASH)" \
+		-X "github.com/c3b2a7/easy-ca-cli/cmd.builtBy=make" \
 		-w -s -buildid='
 
 all: linux-amd64 linux-arm64 freebsd-amd64 freebsd-arm64 macos-amd64 macos-arm64 win64 win32
