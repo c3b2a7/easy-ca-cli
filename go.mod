@@ -1,6 +1,7 @@
 module github.com/c3b2a7/easy-ca-cli
 
 go 1.21
+toolchain go1.24.1
 
 require (
 	github.com/c3b2a7/easy-ca v1.3.0
@@ -11,5 +12,5 @@ require (
 require (
 	github.com/inconshreveable/mousetrap v1.1.0 // indirect
 	github.com/spf13/pflag v1.0.6 // indirect
-	golang.org/x/crypto v0.11.0 // indirect
+	golang.org/x/crypto v0.35.0 // indirect
 )
