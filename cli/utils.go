@@ -28,6 +28,7 @@ import (
 	"crypto/rsa"
 	"crypto/x509"
 	"encoding/pem"
+	"fmt"
 	"github.com/c3b2a7/easy-ca/ca"
 	"os"
 	"software.sslmate.com/src/go-pkcs12"
@@ -170,6 +171,9 @@ func LoadBlocks(file string) ([]*pem.Block, error) {
 	for len(b) > 0 {
 		block, rest := pem.Decode(b)
 		blocks = append(blocks, block)
+		if bytes.Equal(b, rest) {
+			return nil, fmt.Errorf("invalid PEM block in file %s", file)
+		}
 		b = rest
 	}
 	return blocks, nil
