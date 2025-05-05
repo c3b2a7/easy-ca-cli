@@ -29,7 +29,9 @@ import (
 	"github.com/spf13/cobra"
 )
 
-func NewCmdGenCA(cfg *cli.CertConfig) *cobra.Command {
+var cfg = &cli.CertConfig{}
+
+func NewCmdGenCA() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "ca",
 		Short: "Generate a certificate authority",

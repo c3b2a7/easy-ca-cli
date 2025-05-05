@@ -22,18 +22,18 @@ THE SOFTWARE.
 package cmd
 
 import (
-	"github.com/c3b2a7/easy-ca-cli/cli"
 	"github.com/c3b2a7/easy-ca-cli/cmd/gen"
 	"github.com/spf13/cobra"
 )
 
-var cfg cli.CertConfig
-
 var rootCmd = &cobra.Command{
 	Use:   "easy-ca-cli",
-	Short: "easy-ca-cli is a very simple certificate generator",
-	Long: `A simple and easy to use certificate generator built with love by c3b2a in Go.
-Complete documentation is available at https://github.com/c3b2a7/easy-ca-cli#usage`,
+	Short: "easy-ca-cli is a certificate generator",
+	Long: `The easy-ca-cli is a fast, simple certificate generation utility built in Go.
+It serves as a CLI to the core [easy-ca](https://github.com/c3b2a7/easy-ca) library,
+providing an accessible way to generate various certificate types with customizable parameters.
+
+Complete documentation is available at https://github.com/c3b2a7/easy-ca-cli#easy-ca-cli`,
 }
 
 // Execute adds all child commands to the root command and sets flags appropriately.
@@ -46,5 +46,5 @@ func Execute() {
 }
 
 func init() {
-	rootCmd.AddCommand(gen.NewGenCmd(&cfg))
+	rootCmd.AddCommand(gen.NewGenCmd())
 }

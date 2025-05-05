@@ -33,13 +33,13 @@ import (
 )
 
 type tlsConfig struct {
-	*cli.CertConfig
+	cli.CertConfig
 	Host string
 }
 
-func NewCmdGenTLS(cfg *cli.CertConfig) *cobra.Command {
-	tlsCfg := &tlsConfig{CertConfig: cfg}
+var tlsCfg = &tlsConfig{}
 
+func NewCmdGenTLS() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "tls",
 		Short: "Generate a tls certificate",
@@ -49,8 +49,8 @@ func NewCmdGenTLS(cfg *cli.CertConfig) *cobra.Command {
 		},
 	}
 
-	flags.ApplyCommonFlags(cmd, cfg)
-	cmd.Flags().IntVar(&cfg.Days, "days", 825, "days that certificate is valid for")
+	flags.ApplyCommonFlags(cmd, &tlsCfg.CertConfig)
+	cmd.Flags().IntVar(&tlsCfg.CertConfig.Days, "days", 825, "days that certificate is valid for")
 	cmd.Flags().StringVar(&tlsCfg.Host, "host", "", "comma-separated hostnames and IPs to generate a certificate for")
 
 	return cmd
@@ -87,5 +87,5 @@ func runGenTLS(cfg *tlsConfig) error {
 	}
 
 	issuerCertificateChain := cli.Must(cfg.IssuerCertificateChain()).([]*x509.Certificate)
-	return cli.Out(cfg.CertConfig, append([]*x509.Certificate{certificate}, issuerCertificateChain...), keyPair)
+	return cli.Out(&cfg.CertConfig, append([]*x509.Certificate{certificate}, issuerCertificateChain...), keyPair)
 }
