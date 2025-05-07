@@ -1,7 +1,7 @@
 # Easy CA CLI
 
 [![GitHub](https://img.shields.io/github/license/c3b2a7/easy-ca-cli)](https://github.com/c3b2a7/easy-ca-cli/blob/master/LICENSE)
-![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/c3b2a7/easy-ca-cli/build.yml)
+![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/c3b2a7/easy-ca-cli/ci.yml)
 ![GitHub go.mod Go version](https://img.shields.io/github/go-mod/go-version/c3b2a7/easy-ca-cli)
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/c3b2a7/easy-ca-cli)
 
@@ -68,7 +68,7 @@ The CLI offers a comprehensive set of features for certificate generation:
 
 ### Pre-built Binaries
 
-You can also download and extract the latest release
+You can download and extract the latest release
 from [GitHub Releases Page](https://github.com/c3b2a7/easy-ca-cli/releases)
 
 ### Building From Source
@@ -120,7 +120,7 @@ easy-ca-cli gen ca --ed25519 \
 
 This command:
 
-- Creates an intermediate CA using the `ed25591` algorithm
+- Creates an intermediate CA using the `ed25519` algorithm
 - References the root CA's private key and certificate for signing
 - Outputs a certificate chain in `intermediate_cert.chain.pem` that includes both the intermediate CA and root CA
   certificates
