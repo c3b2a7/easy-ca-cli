@@ -22,9 +22,10 @@ THE SOFTWARE.
 package gen
 
 import (
+	"github.com/spf13/cobra"
+
 	cmdCA "github.com/c3b2a7/easy-ca-cli/cmd/gen/ca"
 	cmdTLS "github.com/c3b2a7/easy-ca-cli/cmd/gen/tls"
-	"github.com/spf13/cobra"
 )
 
 func NewGenCmd() *cobra.Command {

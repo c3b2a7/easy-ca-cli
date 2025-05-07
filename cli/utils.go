@@ -29,8 +29,9 @@ import (
 	"crypto/x509"
 	"encoding/pem"
 	"fmt"
-	"github.com/c3b2a7/easy-ca/ca"
 	"os"
+
+	"github.com/c3b2a7/easy-ca/ca"
 	"software.sslmate.com/src/go-pkcs12"
 )
 
@@ -152,9 +153,8 @@ func DetermineCertificateKind(cert *x509.Certificate) CertificateKind {
 			return RootCA
 		}
 		return IntermediateCA
-	} else {
-		return TLS
 	}
+	return TLS
 }
 
 func LoadBlock(file string) (*pem.Block, error) {

@@ -22,9 +22,11 @@ THE SOFTWARE.
 package flags
 
 import (
-	"github.com/c3b2a7/easy-ca-cli/cli"
-	"github.com/spf13/cobra"
 	"time"
+
+	"github.com/spf13/cobra"
+
+	"github.com/c3b2a7/easy-ca-cli/cli"
 )
 
 func ApplyCommonFlags(cmd *cobra.Command, cfg *cli.CertConfig) {
