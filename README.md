@@ -9,22 +9,22 @@
 
 - [What is easy-ca-cli?](#what-is-easy-ca-cli)
 - [Features](#features)
-    * [Supported Key Algorithms](#supported-key-algorithms)
-    * [Certificate Types and Generation](#certificate-types-and-generation)
-    * [Customizable Certificate Information](#customizable-certificate-information)
+  * [Supported Key Algorithms](#supported-key-algorithms)
+  * [Certificate Types and Generation](#certificate-types-and-generation)
+  * [Customizable Certificate Information](#customizable-certificate-information)
 - [Installation](#installation)
-    * [Pre-built Binaries](#pre-built-binaries)
-    * [Building From Source](#building-from-source)
-    * [Verify Installation](#verify-installation)
+  * [Pre-built Binaries](#pre-built-binaries)
+  * [Building From Source](#building-from-source)
+  * [Verify Installation](#verify-installation)
 - [Usage](#usage)
-    * [Creating a Certificate Authority (CA)](#creating-a-certificate-authority-ca)
-    * [Generating an Intermediate CA](#generating-an-intermediate-ca)
-    * [Generating a TLS Certificate](#generating-a-tls-certificate)
-    * [Others](#others)
+  * [Creating a Certificate Authority (CA)](#creating-a-certificate-authority-ca)
+  * [Generating an Intermediate CA](#generating-an-intermediate-ca)
+  * [Generating a TLS Certificate](#generating-a-tls-certificate)
+  * [Others](#others)
 - [Troubleshooting](#troubleshooting)
-    * [Common Issues](#common-issues)
-    * [Getting Help](#getting-help)
-- [Related Projects](#related-projects) 
+  * [Common Issues](#common-issues)
+  * [Getting Help](#getting-help)
+- [Related Projects](#related-projects)
 - [CHANGELOG](#changelog)
 - [LICENSE](#license)
 
@@ -61,8 +61,8 @@ The CLI offers a comprehensive set of features for certificate generation:
 
 - Subject fields: C, O, OU, CN, Serial Number, L, ST, Postal Code
 - Subject Alternative Name (SAN)
-    - DNS names
-    - IP addresses
+  - DNS names
+  - IP addresses
 - Validity period configuration
 
 ## Installation
