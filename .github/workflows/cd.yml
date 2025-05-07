@@ -61,10 +61,10 @@ jobs:
           env
           echo "version_tag=${GITHUB_REF/refs\/tags\//}" >> $GITHUB_OUTPUT
           echo "short_sha=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
-          
+
           # Add "pip install" CLI tools to PATH
           echo ~/.local/bin >> $GITHUB_PATH
-          
+
           # Parse semver
           TAG=${GITHUB_REF/refs\/tags\//}
           SEMVER_RE='[^0-9]*\([0-9]*\)[.]\([0-9]*\)[.]\([0-9]*\)\([0-9A-Za-z\.-]*\)'
@@ -112,10 +112,12 @@ jobs:
           files: |
             dist/*.tar.gz
             dist/*.zip
+            dist/*.rpm
+            dist/*.deb
             dist/*checksums.txt
             dist/*.pem
             dist/*.sig
-            dist/*.sbom
+            dist/*.sbom.json
       - name: Publish to GitHub (pre-release)
         uses: softprops/action-gh-release@v2
         if: ${{ contains(github.ref, '-') }}
@@ -131,4 +133,4 @@ jobs:
             dist/*checksums.txt
             dist/*.pem
             dist/*.sig
-            dist/*.sbom
+            dist/*.sbom.json
