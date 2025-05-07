@@ -23,13 +23,14 @@ package tls
 
 import (
 	"crypto/x509"
-	"github.com/c3b2a7/easy-ca-cli/cli"
-	"github.com/c3b2a7/easy-ca-cli/cmd/gen/flags"
-	"github.com/c3b2a7/easy-ca/ca"
 	"net"
 	"strings"
 
+	"github.com/c3b2a7/easy-ca/ca"
 	"github.com/spf13/cobra"
+
+	"github.com/c3b2a7/easy-ca-cli/cli"
+	"github.com/c3b2a7/easy-ca-cli/cmd/gen/flags"
 )
 
 type tlsConfig struct {
@@ -44,13 +45,13 @@ func NewCmdGenTLS() *cobra.Command {
 		Use:   "tls",
 		Short: "Generate a tls certificate",
 		Args:  cobra.NoArgs,
-		RunE: func(cmd *cobra.Command, args []string) error {
+		RunE: func(_ *cobra.Command, _ []string) error {
 			return runGenTLS(tlsCfg)
 		},
 	}
 
 	flags.ApplyCommonFlags(cmd, &tlsCfg.CertConfig)
-	cmd.Flags().IntVar(&tlsCfg.CertConfig.Days, "days", 825, "days that certificate is valid for")
+	cmd.Flags().IntVar(&tlsCfg.Days, "days", 825, "days that certificate is valid for")
 	cmd.Flags().StringVar(&tlsCfg.Host, "host", "", "comma-separated hostnames and IPs to generate a certificate for")
 
 	return cmd

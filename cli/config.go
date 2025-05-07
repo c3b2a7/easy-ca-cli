@@ -29,8 +29,9 @@ import (
 	"crypto/x509"
 	"errors"
 	"fmt"
-	"github.com/c3b2a7/easy-ca/ca"
 	"time"
+
+	"github.com/c3b2a7/easy-ca/ca"
 )
 
 type CertConfig struct {
@@ -74,11 +75,12 @@ func (c *CertConfig) IssuerPrivateKey() (interface{}, error) {
 	if err != nil {
 		return nil, err
 	}
-	if blocks.Type == "EC PRIVATE KEY" {
+	switch blocks.Type {
+	case "EC PRIVATE KEY":
 		return x509.ParseECPrivateKey(blocks.Bytes)
-	} else if blocks.Type == "RSA PRIVATE KEY" {
+	case "RSA PRIVATE KEY":
 		return x509.ParsePKCS1PrivateKey(blocks.Bytes)
-	} else {
+	default:
 		if key, err := x509.ParsePKCS8PrivateKey(blocks.Bytes); err == nil {
 			switch key.(type) {
 			case *rsa.PrivateKey, *ecdsa.PrivateKey, ed25519.PrivateKey:
@@ -150,11 +152,12 @@ func (c *CertConfig) KeyOpts() []ca.KeyOption {
 }
 
 func (c *CertConfig) Algorithm() (algorithm ca.KeyAlgorithm) {
-	if c.RSA {
+	switch {
+	case c.RSA:
 		algorithm = ca.RSA
-	} else if c.ECDSA {
+	case c.ECDSA:
 		algorithm = ca.ECDSA
-	} else if c.ED25519 {
+	case c.ED25519:
 		algorithm = ca.ED25519
 	}
 	return

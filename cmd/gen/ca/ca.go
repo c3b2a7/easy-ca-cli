@@ -23,10 +23,12 @@ package ca
 
 import (
 	"crypto/x509"
-	"github.com/c3b2a7/easy-ca-cli/cli"
-	"github.com/c3b2a7/easy-ca-cli/cmd/gen/flags"
+
 	"github.com/c3b2a7/easy-ca/ca"
 	"github.com/spf13/cobra"
+
+	"github.com/c3b2a7/easy-ca-cli/cli"
+	"github.com/c3b2a7/easy-ca-cli/cmd/gen/flags"
 )
 
 var cfg = &cli.CertConfig{}
@@ -36,7 +38,7 @@ func NewCmdGenCA() *cobra.Command {
 		Use:   "ca",
 		Short: "Generate a certificate authority",
 		Args:  cobra.NoArgs,
-		RunE: func(cmd *cobra.Command, args []string) error {
+		RunE: func(_ *cobra.Command, _ []string) error {
 			return runGenCA(cfg)
 		},
 	}

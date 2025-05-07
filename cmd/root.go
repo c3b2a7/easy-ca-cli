@@ -22,8 +22,9 @@ THE SOFTWARE.
 package cmd
 
 import (
-	"github.com/c3b2a7/easy-ca-cli/cmd/gen"
 	"github.com/spf13/cobra"
+
+	"github.com/c3b2a7/easy-ca-cli/cmd/gen"
 )
 
 var rootCmd = &cobra.Command{
