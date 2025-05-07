@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-## [unreleased]
+## [1.4.0](https://github.com/c3b2a7/easy-ca-cli/compare/v1.3.0..v1.4.0) - 2025-05-07
 
 ### ✨ Features
 
@@ -17,9 +17,20 @@ All notable changes to this project will be documented in this file.
 
 - Use generic type parameters for better flexibility ([#16](https://github.com/c3b2a7/easy-ca-cli/issues/16)) - ([c1d74f7](https://github.com/c3b2a7/easy-ca-cli/commit/c1d74f7e73507ea6a769e08980764398b2d2f5e5))
 
+### 📚 Documentation
+
+- *(changelog)* Configure `git-cliff` for changelog generation ([#19](https://github.com/c3b2a7/easy-ca-cli/issues/19)) - ([d335b59](https://github.com/c3b2a7/easy-ca-cli/commit/d335b59c298038c60311aa6cbc43f12948047994))
+- Add security policy ([#20](https://github.com/c3b2a7/easy-ca-cli/issues/20)) - ([5d89614](https://github.com/c3b2a7/easy-ca-cli/commit/5d89614677eb14a8e2cd3cf08c199f5f6d203c1c))
+
+### 🎨 Styling
+
+- Add .editorconfig and reformat code for consistency ([#23](https://github.com/c3b2a7/easy-ca-cli/issues/23)) - ([678cc5f](https://github.com/c3b2a7/easy-ca-cli/commit/678cc5f9cd3ee82596e92fc9a3d5d750929318fe))
+
 ### ⚙️ Miscellaneous Tasks
 
 - *(cli)* Update version output template for improved readability ([#17](https://github.com/c3b2a7/easy-ca-cli/issues/17)) - ([a84a025](https://github.com/c3b2a7/easy-ca-cli/commit/a84a025fbd5aae5d4ae437f7c7abf1479e8de6ab))
+- Update the workflow to include the correct files - ([59445f9](https://github.com/c3b2a7/easy-ca-cli/commit/59445f94309cee33c3ac361775e1ce03869ca0db))
+- Add actions for checks and resolve lint issues ([#21](https://github.com/c3b2a7/easy-ca-cli/issues/21)) - ([179346c](https://github.com/c3b2a7/easy-ca-cli/commit/179346c41a9a25769e247e7914d12ac6032cdddd))
 - Integrate GoReleaser with changelog and release automation ([#18](https://github.com/c3b2a7/easy-ca-cli/issues/18)) - ([ab8322b](https://github.com/c3b2a7/easy-ca-cli/commit/ab8322b1f6e620aeb683dd828a83c5fe9de62cf6))
 - Update README.md - ([c61db40](https://github.com/c3b2a7/easy-ca-cli/commit/c61db40af29dd9744e365f3374ee21bec9379973))
 
