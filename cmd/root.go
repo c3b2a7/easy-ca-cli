@@ -46,5 +46,8 @@ func Execute() {
 }
 
 func init() {
+	rootCmd.Version = Version()
+	rootCmd.SetVersionTemplate(VersionTemplate())
+
 	rootCmd.AddCommand(gen.NewGenCmd())
 }

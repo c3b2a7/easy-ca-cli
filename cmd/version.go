@@ -22,26 +22,37 @@ THE SOFTWARE.
 package cmd
 
 import (
+	"bytes"
+	_ "embed"
 	"fmt"
-
-	"github.com/spf13/cobra"
+	"runtime"
 )
 
 var (
-	Version   = "Unknown Version"
-	BuildTime = "Unknown Time"
+	version = "dev"
+	date    = "unknown"
+	commit  = "none"
+	builtBy = "unknown"
 )
 
-// versionCmd represents the version command
-var versionCmd = &cobra.Command{
-	Use:   "version",
-	Short: "Print the version number of easy-ca-cli",
-	Long:  `All software has versions. This is easy-ca-cil's`,
-	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println(Version, ",", BuildTime)
-	},
+//go:embed banner.txt
+var banner []byte
+
+func Version() string {
+	return version
 }
 
-func init() {
-	rootCmd.AddCommand(versionCmd)
+func VersionTemplate() string {
+	buf := new(bytes.Buffer)
+	buf.Write(banner)
+	buf.WriteString(`{{with .Name}}{{printf "%s: A fast, simple certificate generation utility built in Go.\n" .}}{{end}}`)
+	buf.WriteString("https://github.com/c3b2a7/easy-ca-cli\n\n")
+	buf.WriteString(fmt.Sprintln("Version:", version))
+	buf.WriteString(fmt.Sprintln("BuildDate:", date))
+	buf.WriteString(fmt.Sprintln("GitCommit:", commit))
+	buf.WriteString(fmt.Sprintln("BuiltBy:", builtBy))
+	buf.WriteString(fmt.Sprintln("GoVersion:", runtime.Version()))
+	buf.WriteString(fmt.Sprintln("Compiler:", runtime.Compiler))
+	buf.WriteString(fmt.Sprintln("Platform:", fmt.Sprintf("%s/%s", runtime.GOOS, runtime.GOARCH)))
+	return buf.String()
 }
