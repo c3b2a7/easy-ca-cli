@@ -24,7 +24,8 @@
 - [Troubleshooting](#troubleshooting)
     * [Common Issues](#common-issues)
     * [Getting Help](#getting-help)
-- [Dependencies](#dependencies)
+- [Related Projects](#related-projects) 
+- [CHANGELOG](#changelog)
 - [LICENSE](#license)
 
 ## What is easy-ca-cli?
@@ -171,12 +172,16 @@ If you encounter issues not covered in this guide, you can:
 - Check the GitHub repository for open issues
 - Open a new issue if your problem hasn't been reported
 
-## Dependencies
+## Related Projects
 
 - [easy-ca](https://github.com/c3b2a7/easy-ca): The core library that provides the certificate generation functionality
 - [cobar](https://github.com/spf13/cobra): A powerful framework for creating modern CLI applications with nested
   commands
 
+## CHANGELOG
+
+See [CHANGELOG.md](./CHANGELOG.md)
+
 ## LICENSE
 
-Easy CA CLI is released under the MIT license. See [LICENSE](https://github.com/c3b2a7/easy-ca-cli/blob/main/LICENSE)
+Easy CA CLI is released under the MIT license. See [LICENSE](./LICENSE)
