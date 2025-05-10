@@ -19,7 +19,7 @@ A clear and concise description of what the bug is.
 
 **Reproduce steps:**
 
-A description with steps to reproduce the issue. If your have a public example or repo to share, please provide the
+A description with steps to reproduce the issue. If you have a public example or repo to share, please provide the
 link.
 
 **Expected behavior:**
