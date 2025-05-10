@@ -9,13 +9,13 @@ or link to an issue where this is explained.
 
 ## Type of change
 
-<!-- Delete any that are not relevant -->
+<!-- Remove any that are not relevant -->
 
 - [ ] Bug fix (non-breaking change which fixes an issue)
 - [ ] New feature (non-breaking change which adds functionality)
 - [ ] Breaking change (fix or feature that would cause existing functionality to not work as expected)
 - [ ] Documentation (updates the documentation)
-- [ ] Chore (improve the developer experience, fix a test flake, etc, without changing the visible behavior)
+- [ ] Chore (improve the developer experience, fix a test flake, etc., without changing the visible behavior)
 - [ ] Performance (make it run faster or use less memory, without changing visible behavior much)
 
 # Checklist:
