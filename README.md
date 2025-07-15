@@ -4,6 +4,7 @@
 ![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/c3b2a7/easy-ca-cli/ci.yml)
 ![GitHub go.mod Go version](https://img.shields.io/github/go-mod/go-version/c3b2a7/easy-ca-cli)
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/c3b2a7/easy-ca-cli)
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/c3b2a7/easy-ca-cli)
 
 ## Table Of Contents
 
