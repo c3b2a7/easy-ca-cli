@@ -14,6 +14,7 @@
   * [Certificate Types and Generation](#certificate-types-and-generation)
   * [Customizable Certificate Information](#customizable-certificate-information)
 - [Installation](#installation)
+  * [Recommended](#recommended)
   * [Pre-built Binaries](#pre-built-binaries)
   * [Building From Source](#building-from-source)
   * [Verify Installation](#verify-installation)
@@ -67,6 +68,20 @@ The CLI offers a comprehensive set of features for certificate generation:
 - Validity period configuration
 
 ## Installation
+
+easy-ca-cli binaries are provided for Linux, macOS and Windows.
+
+### Recommended
+
+```sh
+curl -sSfL https://get.lolico.me/easy-ca-cli | sh -s -- -b /usr/local/bin
+```
+
+Install script options:
+
+- `-b`: Specify a custom installation directory (defaults to `./bin`)
+- `-d`: More verbose logging levels (`-d` for debug, `-dd` for trace)
+- `-v`: Verify the signature of the downloaded artifact before installation (requires [cosign](https://github.com/sigstore/cosign) to be installed)
 
 ### Pre-built Binaries
 
