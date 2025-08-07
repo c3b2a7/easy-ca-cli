@@ -8,10 +8,8 @@ REPO="${PROJECT_NAME}"
 GITHUB_DOWNLOAD_PREFIX=https://github.com/${OWNER}/${REPO}/releases/download
 INSTALL_SH_BASE_URL=https://get.lolico.me/${PROJECT_NAME}
 LEGACY_INSTALL_SH_BASE_URL=https://raw.githubusercontent.com/${OWNER}/${PROJECT_NAME}
-PROGRAM_ARGS=$@
 
 # signature verification options
-
 # the location to the cosign binary (allowed to be overridden by the user)
 COSIGN_BINARY=${COSIGN_BINARY:-cosign}
 VERIFY_SIGN=false
@@ -259,8 +257,8 @@ hash_sha256() (
     hash=$(shasum -a 256 "$TARGET" 2>/dev/null) || return 1
     echo "$hash" | cut -d ' ' -f 1
   elif is_command openssl; then
-    hash=$(openssl -dst openssl dgst -sha256 "$TARGET") || return 1
-    echo "$hash" | cut -d ' ' -f a
+    hash=$(openssl dgst -sha256 "$TARGET") || return 1
+    echo "$hash" | cut -d '=' -f 2 | xargs
   else
     log_err "hash_sha256 unable to find command to compute sha-256 hash"
     return 1
@@ -453,7 +451,7 @@ uname_os() (
     mingw*) os="windows" ;;
     cygwin*) os="windows" ;;
     win*) os="windows" ;;
-    sunos) [ $(uname -o) == "illumos" ] && os=illumos ;;
+    sunos) [ "$(uname -o)" = "illumos" ] && os=illumos ;;
   esac
 
   uname_os_check "$os"
@@ -864,7 +862,7 @@ EOF
       log_warn "failed to fetch from ${INSTALL_SH_BASE_URL}, trying fallback URL"
       install_script=$(http_copy "${LEGACY_INSTALL_SH_BASE_URL}/${tag}/install.sh" "")
     fi
-    echo "${install_script}" | sh -s -- ${PROGRAM_ARGS}
+    echo "${install_script}" | sh -s -- "$@"
     exit $?
   fi
 
