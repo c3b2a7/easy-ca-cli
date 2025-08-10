@@ -10,22 +10,20 @@
 
 - [What is easy-ca-cli?](#what-is-easy-ca-cli)
 - [Features](#features)
-  * [Supported Key Algorithms](#supported-key-algorithms)
-  * [Certificate Types and Generation](#certificate-types-and-generation)
-  * [Customizable Certificate Information](#customizable-certificate-information)
+  - [Supported Key Algorithms](#supported-key-algorithms)
+  - [Certificate Types and Generation](#certificate-types-and-generation)
+  - [Customizable Certificate Information](#customizable-certificate-information)
 - [Installation](#installation)
-  * [Recommended](#recommended)
-  * [Pre-built Binaries](#pre-built-binaries)
-  * [Building From Source](#building-from-source)
-  * [Verify Installation](#verify-installation)
+  - [Recommended](#recommended)
+  - [Manual](#manual)
+  - [Building From Source](#building-from-source)
 - [Usage](#usage)
-  * [Creating a Certificate Authority (CA)](#creating-a-certificate-authority-ca)
-  * [Generating an Intermediate CA](#generating-an-intermediate-ca)
-  * [Generating a TLS Certificate](#generating-a-tls-certificate)
-  * [Others](#others)
+  - [Creating a Certificate Authority (CA)](#creating-a-certificate-authority-ca)
+  - [Generating an Intermediate CA](#generating-an-intermediate-ca)
+  - [Generating a TLS Certificate](#generating-a-tls-certificate)
 - [Troubleshooting](#troubleshooting)
-  * [Common Issues](#common-issues)
-  * [Getting Help](#getting-help)
+  - [Common Issues](#common-issues)
+  - [Getting Help](#getting-help)
 - [Related Projects](#related-projects)
 - [CHANGELOG](#changelog)
 - [LICENSE](#license)
@@ -83,10 +81,51 @@ Install script options:
 - `-d`: More verbose logging levels (`-d` for debug, `-dd` for trace)
 - `-v`: Verify the signature of the downloaded artifact before installation (requires [cosign](https://github.com/sigstore/cosign) to be installed)
 
-### Pre-built Binaries
+### Manual
 
 You can download and extract the latest release
 from [GitHub Releases Page](https://github.com/c3b2a7/easy-ca-cli/releases)
+
+<details>
+<summary><b>Guided installation steps</b></summary>
+
+Here we use macOS (Darwin) on the arm64 architecture as an example for installation.
+
+1. Download these files for your version from the [GitHub Releases Page](https://github.com/c3b2a7/easy-ca-cli/releases)
+
+    - tarball: `easy-ca-cli_$version_darwin_arm64.tar.gz`
+    - checksums (optional): `easy-ca-cli_$version_sha256_checksums.txt`
+    - signature (optional): `easy-ca-cli_$version_sha256_checksums.txt.sig`
+    - certificate (optional): `easy-ca-cli_$version_sha256_checksums.txt.pem`
+
+2. **(Optional) Verifying the signature of your downloaded checksums file**
+
+    If you chose to manually download the tarball file in the above steps, you can use the following steps to verify the signatures and checksums by using the [cosign](https://github.com/sigstore/cosign) and sha256sum tool.
+
+    ```bash
+    # Your downloaded version (without prefix `v`)
+    # Example:
+    version=1.4.0
+
+    # 1. Verify the signature of checksum file
+    cosign verify-blob easy-ca-cli_${version}_sha256_checksums.txt \
+      --certificate easy-ca-cli_${version}_sha256_checksums.txt.pem \
+      --signature easy-ca-cli_${version}_sha256_checksums.txt.sig \
+      --certificate-identity "https://github.com/c3b2a7/easy-ca-cli/.github/workflows/cd.yml@refs/tags/v${version}" \
+      --certificate-oidc-issuer "https://token.actions.githubusercontent.com"
+
+    # 2. Verify the tarball’s checksums
+    sha256sum --ignore-missing --check easy-ca-cli_${version}_sha256_checksums.txt
+    ```
+
+3. Unpack tarball
+4. Confirm the version with the following command
+
+    ```bash
+    easy-ca-cli --version
+    ```
+
+</details>
 
 ### Building From Source
 
@@ -94,16 +133,11 @@ from [GitHub Releases Page](https://github.com/c3b2a7/easy-ca-cli/releases)
 go install github.com/c3b2a7/easy-ca-cli@latest
 ```
 
-### Verify Installation
-
-```bash
-easy-ca-cli --version
-```
-
 ## Usage
 
-The CLI provider `gen ca` and `gen tls` commands for certificate generation,
-here are some basic examples of how to use easy-ca-cli:
+The CLI provider `gen ca` and `gen tls` commands for certificate generation, you can run `easy-ca-cli help [command]` for more information about a command and its flags.
+
+Here are some basic examples of how to use easy-ca-cli.
 
 ### Creating a Certificate Authority (CA)
 
@@ -161,15 +195,6 @@ This command:
 - Makes the certificate valid for 1 year
 - References the intermediate CA for signing
 - Outputs generated certificate and private key by default file name, if flags are not specified.
-
-### Others
-
-run `help` for more information about a command and
-its flags.
-
-```bash
-easy-ca-cli help
-```
 
 ## Troubleshooting
 
