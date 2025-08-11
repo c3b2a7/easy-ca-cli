@@ -16,6 +16,7 @@ All notable changes to this project will be documented in this file.
 
 ### ⚙️ Miscellaneous Tasks
 
+- Ignore generated files to avoid dirty git state in CI ([#34](https://github.com/c3b2a7/easy-ca-cli/issues/34)) - ([c96df2d](https://github.com/c3b2a7/easy-ca-cli/commit/c96df2d02f7c95241721e1688e5cafcf0cb0b0f9))
 - Rename dependentbot.yml to dependabot.yml ([#28](https://github.com/c3b2a7/easy-ca-cli/issues/28)) - ([51ab130](https://github.com/c3b2a7/easy-ca-cli/commit/51ab130229d1b15402ab6b42d627bd8a26c338ef))
 - Add dependabot.yml and fix typos in documentation ([#25](https://github.com/c3b2a7/easy-ca-cli/issues/25)) - ([2dd7177](https://github.com/c3b2a7/easy-ca-cli/commit/2dd7177df9baf85e08e5f74716e4b8602e38c143))
 - Add community guidelines and contribution templates ([#24](https://github.com/c3b2a7/easy-ca-cli/issues/24)) - ([37e1d97](https://github.com/c3b2a7/easy-ca-cli/commit/37e1d9772c112798b308df17c1ca9c8033c9133a))
