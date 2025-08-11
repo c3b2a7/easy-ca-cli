@@ -146,7 +146,7 @@ docker run --rm -i ghcr.io/c3b2a7/easy-ca-cli:latest
 > You can mount volumes using the `-v` option, e.g. `-v <host_path>:<container_path>`, so it's easier to access the generated certificates and keys.
 
 ```bash
-docker run -v ./data:/data --rm -i ghcr.io/c3b2a7/easy-ca-cli:v1.4.0-amd64 gen ca --rsa \
+docker run -v ./data:/data --rm -i ghcr.io/c3b2a7/easy-ca-cli:latest gen ca --rsa \
   --subject "/C=CN/O=Easy CA/OU=IT Dept./CN=Easy CA Root" \
   --out-key /data/ca_key.pem --out-cert /data/ca_cert.pem
 ```
