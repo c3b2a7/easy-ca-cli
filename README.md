@@ -17,6 +17,7 @@
   - [Recommended](#recommended)
   - [Manual](#manual)
   - [Building From Source](#building-from-source)
+- [Docker image](#docker-image)
 - [Usage](#usage)
   - [Creating a Certificate Authority (CA)](#creating-a-certificate-authority-ca)
   - [Generating an Intermediate CA](#generating-an-intermediate-ca)
@@ -132,6 +133,25 @@ Here we use macOS (Darwin) on the arm64 architecture as an example for installat
 ```bash
 go install github.com/c3b2a7/easy-ca-cli@latest
 ```
+
+## Docker image
+
+easy-ca-cli are also available as a Docker image. For example:
+
+```bash
+docker run --rm -i ghcr.io/c3b2a7/easy-ca-cli:latest
+```
+
+> [!TIP]
+> You can mount volumes using the `-v` option, e.g. `-v <host_path>:<container_path>`, so it's easier to access the generated certificates and keys.
+
+```bash
+docker run -v ./data:/data --rm -i ghcr.io/c3b2a7/easy-ca-cli:v1.4.0-amd64 gen ca --rsa \
+  --subject "/C=CN/O=Easy CA/OU=IT Dept./CN=Easy CA Root" \
+  --out-key /data/ca_key.pem --out-cert /data/ca_cert.pem
+```
+
+Multiple versions are available on [ghcr.io](https://github.com/c3b2a7/easy-ca-cli/pkgs/container/easy-ca-cli).
 
 ## Usage
 
