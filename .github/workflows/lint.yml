@@ -1,12 +1,10 @@
 name: golangci-lint
 
 on:
+  pull_request:
   push:
-    tags:
-      - v*
     branches:
       - main
-  pull_request:
 
 permissions:
   contents: read

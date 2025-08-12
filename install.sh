@@ -8,6 +8,7 @@ REPO="${PROJECT_NAME}"
 GITHUB_DOWNLOAD_PREFIX=https://github.com/${OWNER}/${REPO}/releases/download
 INSTALL_SH_BASE_URL=https://get.lolico.me/${PROJECT_NAME}
 LEGACY_INSTALL_SH_BASE_URL=https://raw.githubusercontent.com/${OWNER}/${PROJECT_NAME}
+PROGRAM_ARGS=$@
 
 # signature verification options
 # the location to the cosign binary (allowed to be overridden by the user)
@@ -862,7 +863,7 @@ EOF
       log_warn "failed to fetch from ${INSTALL_SH_BASE_URL}, trying fallback URL"
       install_script=$(http_copy "${LEGACY_INSTALL_SH_BASE_URL}/${tag}/install.sh" "")
     fi
-    echo "${install_script}" | sh -s -- "$@"
+    echo "${install_script}" | sh -s -- ${PROGRAM_ARGS}
     exit $?
   fi
 
