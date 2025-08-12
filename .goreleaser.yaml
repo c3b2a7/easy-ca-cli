@@ -11,7 +11,9 @@ before:
     - go generate ./...
 
 builds:
-  - env:
+  - binary: easy-ca-cli
+    main: .
+    env:
       - CGO_ENABLED=0
     goos:
       - darwin
@@ -55,53 +57,8 @@ builds:
       - -X github.com/c3b2a7/easy-ca-cli/cmd.date={{.Date}}
       - -X github.com/c3b2a7/easy-ca-cli/cmd.builtBy=goreleaser
 
-nfpms:
-  - license: "MIT"
-    maintainer: "Finn Lee <finn.lee@qq.com>"
-    homepage: "https://github.com/c3b2a7/easy-ca-cli"
-    description: "A fast, simple certificate generation utility built in Go."
-    formats:
-      - rpm
-      - deb
-
-signs:
-  - cmd: cosign
-    id: checksum-sign
-    artifacts: checksum
-    signature: &signature "${artifact}.sig"
-    certificate: &certificate "${artifact}.pem"
-    args: &args [ "sign-blob", "--yes", "--output-signature=${signature}", "--output-certificate=${certificate}", "${artifact}" ]
-  - cmd: cosign
-    id: source-sign
-    artifacts: source
-    signature: *signature
-    certificate: *certificate
-    args: *args
-
-sboms:
-  - id: binary_sbom
-    cmd: syft
-    artifacts: binary
-    documents:
-      - >-
-        {{ .ProjectName }}_{{- .Version }}_{{- .Os }}_
-        {{- if eq .Arch "amd64" }}x86_64
-        {{- else if eq .Arch "386" }}i386
-        {{- else }}{{ .Arch }}{{ end }}
-        {{- with .Arm }}v{{ . }}{{ end }}
-        {{- with .Mips }}_{{ . }}{{ end }}
-        {{- if not (eq .Amd64 "v1") }}{{ .Amd64 }}{{ end }}.sbom.json
-    args: &args [ "scan", "$artifact", "--output", "cyclonedx-json=${document}" ]
-  - id: source_sbom
-    cmd: syft
-    artifacts: source
-    documents:
-      - '{{ .ProjectName }}_{{ .Version }}_src.sbom.json'
-    args: *args
-
 archives:
-  - id: default
-    formats: [ tar.gz ]
+  - formats: [ tar.gz ]
     # this name template makes the OS and Arch compatible with the results of `uname`.
     name_template: >-
       {{ .ProjectName }}_{{- .Version }}_{{- .Os }}_
@@ -125,6 +82,144 @@ checksum:
   algorithm: sha256
 
 release:
-  disable: true
-changelog:
-  disable: true
+  prerelease: auto
+  name_template: '{{ if .Prerelease }}Pre-release {{ .Tag }}{{ else }}Release {{ .Tag }}{{ end }}'
+
+nfpms:
+  - license: "MIT"
+    maintainer: "opensource@lolico.me"
+    homepage: "https://github.com/c3b2a7/easy-ca-cli"
+    description: "A fast, simple certificate generation utility built in Go."
+    formats:
+      - rpm
+      - deb
+
+dockers:
+  - goos: linux
+    goarch: amd64
+    use: buildx
+    image_templates:
+      - ghcr.io/c3b2a7/easy-ca-cli:{{.Tag}}-amd64
+    build_flag_templates:
+      - "--platform=linux/amd64"
+      - '--label=org.opencontainers.image.title={{.ProjectName}}'
+      - '--label=org.opencontainers.image.description=A fast, simple certificate generation utility built in Go.'
+      - '--label=org.opencontainers.image.source={{.GitURL}}'
+      - '--label=org.opencontainers.image.url={{.GitURL}}'
+      - '--label=org.opencontainers.image.documentation=https://github.com/c3b2a7/easy-ca-cli'
+      - '--label=org.opencontainers.image.created={{.Date}}'
+      - '--label=org.opencontainers.image.revision={{.FullCommit}}'
+      - '--label=org.opencontainers.image.version={{.Version}}'
+      - "--label=org.opencontainers.image.licenses=MIT"
+  - goos: linux
+    goarch: arm64
+    use: buildx
+    image_templates:
+      - ghcr.io/c3b2a7/easy-ca-cli:{{.Tag}}-arm64v8
+    build_flag_templates:
+      - "--platform=linux/arm64/v8"
+      - '--label=org.opencontainers.image.title={{.ProjectName}}'
+      - '--label=org.opencontainers.image.description=A fast, simple certificate generation utility built in Go.'
+      - '--label=org.opencontainers.image.source={{.GitURL}}'
+      - '--label=org.opencontainers.image.url={{.GitURL}}'
+      - '--label=org.opencontainers.image.documentation=https://github.com/c3b2a7/easy-ca-cli'
+      - '--label=org.opencontainers.image.created={{.Date}}'
+      - '--label=org.opencontainers.image.revision={{.FullCommit}}'
+      - '--label=org.opencontainers.image.version={{.Version}}'
+      - "--label=org.opencontainers.image.licenses=MIT"
+  - goos: linux
+    goarch: s390x
+    use: buildx
+    image_templates:
+      - ghcr.io/c3b2a7/easy-ca-cli:{{.Tag}}-s390x
+    build_flag_templates:
+      - "--platform=linux/s390x"
+      - '--label=org.opencontainers.image.title={{.ProjectName}}'
+      - '--label=org.opencontainers.image.description=A fast, simple certificate generation utility built in Go.'
+      - '--label=org.opencontainers.image.source={{.GitURL}}'
+      - '--label=org.opencontainers.image.url={{.GitURL}}'
+      - '--label=org.opencontainers.image.documentation=https://github.com/c3b2a7/easy-ca-cli'
+      - '--label=org.opencontainers.image.created={{.Date}}'
+      - '--label=org.opencontainers.image.revision={{.FullCommit}}'
+      - '--label=org.opencontainers.image.version={{.Version}}'
+      - "--label=org.opencontainers.image.licenses=MIT"
+  - goos: linux
+    goarch: ppc64le
+    use: buildx
+    image_templates:
+      - ghcr.io/c3b2a7/easy-ca-cli:{{.Tag}}-ppc64le
+    build_flag_templates:
+      - "--platform=linux/ppc64le"
+      - '--label=org.opencontainers.image.title={{.ProjectName}}'
+      - '--label=org.opencontainers.image.description=A fast, simple certificate generation utility built in Go.'
+      - '--label=org.opencontainers.image.source={{.GitURL}}'
+      - '--label=org.opencontainers.image.url={{.GitURL}}'
+      - '--label=org.opencontainers.image.documentation=https://github.com/c3b2a7/easy-ca-cli'
+      - '--label=org.opencontainers.image.created={{.Date}}'
+      - '--label=org.opencontainers.image.revision={{.FullCommit}}'
+      - '--label=org.opencontainers.image.version={{.Version}}'
+      - "--label=org.opencontainers.image.licenses=MIT"
+  - goos: linux
+    goarch: riscv64
+    use: buildx
+    image_templates:
+      - ghcr.io/c3b2a7/easy-ca-cli:{{.Tag}}-riscv64
+    build_flag_templates:
+      - "--platform=linux/riscv64"
+      - '--label=org.opencontainers.image.title={{.ProjectName}}'
+      - '--label=org.opencontainers.image.description=A fast, simple certificate generation utility built in Go.'
+      - '--label=org.opencontainers.image.source={{.GitURL}}'
+      - '--label=org.opencontainers.image.url={{.GitURL}}'
+      - '--label=org.opencontainers.image.documentation=https://github.com/c3b2a7/easy-ca-cli'
+      - '--label=org.opencontainers.image.created={{.Date}}'
+      - '--label=org.opencontainers.image.revision={{.FullCommit}}'
+      - '--label=org.opencontainers.image.version={{.Version}}'
+      - "--label=org.opencontainers.image.licenses=MIT"
+
+docker_manifests:
+  - name_template: ghcr.io/c3b2a7/easy-ca-cli:{{.Tag}}
+    image_templates: &image_templates
+      - ghcr.io/c3b2a7/easy-ca-cli:{{.Tag}}-amd64
+      - ghcr.io/c3b2a7/easy-ca-cli:{{.Tag}}-arm64v8
+      - ghcr.io/c3b2a7/easy-ca-cli:{{.Tag}}-s390x
+      - ghcr.io/c3b2a7/easy-ca-cli:{{.Tag}}-ppc64le
+      - ghcr.io/c3b2a7/easy-ca-cli:{{.Tag}}-riscv64
+  - name_template: '{{ if not .Prerelease }}ghcr.io/c3b2a7/easy-ca-cli:v{{ .Major }}{{ end }}'
+    image_templates: *image_templates
+  - name_template: '{{ if not .Prerelease }}ghcr.io/c3b2a7/easy-ca-cli:latest{{ end }}'
+    image_templates: *image_templates
+
+signs:
+  - id: checksum-sign
+    cmd: cosign
+    artifacts: checksum
+    signature: &signature "${artifact}.sig"
+    certificate: &certificate "${artifact}.pem"
+    args: &signs_args [ "sign-blob", "--yes", "--output-signature=${signature}", "--output-certificate=${certificate}", "${artifact}" ]
+  - id: source-sign
+    cmd: cosign
+    artifacts: source
+    signature: *signature
+    certificate: *certificate
+    args: *signs_args
+
+sboms:
+  - id: binary_sbom
+    cmd: syft
+    artifacts: binary
+    documents:
+      - >-
+        {{ .ProjectName }}_{{- .Version }}_{{- .Os }}_
+        {{- if eq .Arch "amd64" }}x86_64
+        {{- else if eq .Arch "386" }}i386
+        {{- else }}{{ .Arch }}{{ end }}
+        {{- with .Arm }}v{{ . }}{{ end }}
+        {{- with .Mips }}_{{ . }}{{ end }}
+        {{- if not (eq .Amd64 "v1") }}{{ .Amd64 }}{{ end }}.sbom.json
+    args: &sboms_args [ "scan", "$artifact", "--output", "cyclonedx-json=${document}" ]
+  - id: source_sbom
+    cmd: syft
+    artifacts: source
+    documents:
+      - '{{ .ProjectName }}_{{ .Version }}_src.sbom.json'
+    args: *sboms_args
