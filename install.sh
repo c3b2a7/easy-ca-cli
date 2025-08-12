@@ -8,6 +8,7 @@ REPO="${PROJECT_NAME}"
 GITHUB_DOWNLOAD_PREFIX=https://github.com/${OWNER}/${REPO}/releases/download
 INSTALL_SH_BASE_URL=https://get.lolico.me/${PROJECT_NAME}
 LEGACY_INSTALL_SH_BASE_URL=https://raw.githubusercontent.com/${OWNER}/${PROJECT_NAME}
+PROGRAM_ARGS=$@
 
 # signature verification options
 # the location to the cosign binary (allowed to be overridden by the user)
@@ -18,7 +19,7 @@ INSTALL_SH_SUPPORTED_VERSION=v1.4.0
 # this is the earliest tag in the repo where cosign sign-blob was introduced in the release process (see the goreleaser config)
 VERIFY_SIGN_SUPPORTED_VERSION=v1.4.0
 # this is the earliest tag in the repo where the -v flag was introduced to this install.sh script
-VERIFY_SIGN_FLAG_VERSION=v1.4.1
+VERIFY_SIGN_FLAG_VERSION=v1.5.0
 
 # do not change the name of this parameter (this must always be backwards compatible)
 DOWNLOAD_TAG_INSTALL_SCRIPT=${DOWNLOAD_TAG_INSTALL_SCRIPT:-true}
@@ -862,7 +863,7 @@ EOF
       log_warn "failed to fetch from ${INSTALL_SH_BASE_URL}, trying fallback URL"
       install_script=$(http_copy "${LEGACY_INSTALL_SH_BASE_URL}/${tag}/install.sh" "")
     fi
-    echo "${install_script}" | sh -s -- "$@"
+    echo "${install_script}" | sh -s -- ${PROGRAM_ARGS}
     exit $?
   fi
 
