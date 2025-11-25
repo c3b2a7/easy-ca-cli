@@ -16,7 +16,7 @@ jobs:
       content: ${{ steps.git-cliff.outputs.content }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
       - name: Generate a changelog
@@ -37,7 +37,7 @@ jobs:
       packages: write # requires for goreleaser to publish docker images
     steps:
       - name: Checkout code
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
       - name: Set up Go
