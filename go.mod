@@ -6,7 +6,7 @@ toolchain go1.24.1
 
 require (
 	github.com/c3b2a7/easy-ca v1.3.0
-	github.com/spf13/cobra v1.10.1
+	github.com/spf13/cobra v1.10.2
 	software.sslmate.com/src/go-pkcs12 v0.6.0
 )
 
